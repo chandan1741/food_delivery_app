@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  react-app:
+    container_name: react_app_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    ports:
+      - "3001:5173"
+
+    volumes:
+      - .:/myapp
+      - /myapp/node_modules
+
+    networks:
+      react_network:
+        ipv4_address: 172.25.0.10
+
+    restart: unless-stopped
+
+networks:
+  react_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
+          gateway: 172.25.0.1
